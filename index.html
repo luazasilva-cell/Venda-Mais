@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VendeMais IA | Assistente para vendedores</title>
+<style>
+:root{--bg:#f4f7fb;--card:#fff;--ink:#182230;--muted:#657286;--line:#e4eaf1;--brand:#2368f5;--brand2:#174ac0;--green:#138a5b;--soft:#edf4ff;--shadow:0 12px 34px rgba(20,40,80,.07)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--ink)}
+button,input,textarea,select{font:inherit}button{cursor:pointer;border:0;border-radius:10px;padding:11px 15px;font-weight:700;background:var(--brand);color:#fff}button:hover{background:var(--brand2)}button.secondary{background:#edf2f8;color:#243247}button.secondary:hover{background:#e1e9f3}button.green{background:var(--green)}
+.app{display:grid;grid-template-columns:245px 1fr;min-height:100vh}.sidebar{background:#111d32;color:#fff;padding:26px 18px}.logo{font-size:21px;font-weight:850;letter-spacing:-.5px}.logo span{color:#77a6ff}.tagline{font-size:12px;color:#aebbd0;margin:7px 0 30px}.nav{display:grid;gap:8px}.nav button{background:transparent;text-align:left;color:#c9d5e7;font-weight:650}.nav button.active,.nav button:hover{background:#243654;color:white}.sidefoot{position:sticky;top:90vh;font-size:11px;color:#8fa0ba;margin-top:50px;line-height:1.6}
+main{padding:30px;max-width:1400px;width:100%;margin:auto}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:25px}.eyebrow{font-size:11px;font-weight:800;color:var(--brand);letter-spacing:1.4px;text-transform:uppercase}.top h1{font-size:29px;margin:5px 0}.sub{color:var(--muted);margin:0;line-height:1.5}.pill{background:#e4f7ee;color:#14764e;border-radius:99px;padding:8px 12px;font-size:12px;font-weight:800;white-space:nowrap}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-bottom:20px}.stat,.panel{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:20px;box-shadow:var(--shadow)}.stat small{color:var(--muted);font-weight:650}.stat strong{display:block;font-size:25px;margin:8px 0 3px}.stat span{color:var(--muted);font-size:12px}
+.layout{display:grid;grid-template-columns:1.05fr .95fr;gap:18px}.panel{margin-bottom:18px}.panel h2{font-size:17px;margin:0 0 5px}.panel p.help{font-size:12px;color:var(--muted);margin:0 0 18px;line-height:1.5}
+label{display:block;font-size:12px;font-weight:750;color:#344257;margin:13px 0 7px}input,textarea,select{width:100%;border:1px solid #d7e0eb;border-radius:10px;padding:11px 12px;background:#fff;color:var(--ink);outline:none}input:focus,textarea:focus,select:focus{border-color:#78a2ff;box-shadow:0 0 0 3px #e8f0ff}textarea{min-height:90px;resize:vertical}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px}.result{background:#f7f9fc;border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:12px;white-space:pre-wrap;line-height:1.55;font-size:14px;min-height:45px}.result strong{color:var(--green)}.pricebig{font-size:30px;font-weight:850;color:var(--green);margin:8px 0}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:14px}.metric{background:#f6f8fb;padding:12px;border-radius:11px}.metric small{display:block;color:var(--muted);font-size:11px}.metric b{display:block;margin-top:5px;font-size:15px}.products{display:grid;gap:10px}.product{display:flex;justify-content:space-between;gap:12px;border:1px solid var(--line);border-radius:12px;padding:13px}.product b{display:block}.product small{color:var(--muted)}.product button{padding:7px 10px;font-size:12px}.hidden{display:none!important}.notice{font-size:12px;color:var(--muted);line-height:1.6;margin-top:15px}.empty{color:var(--muted);font-size:13px;padding:10px 0}.footer{text-align:center;color:#8a96a8;font-size:11px;padding:10px}
+@media(max-width:900px){.app{grid-template-columns:1fr}.sidebar{padding:17px;position:static}.tagline{margin-bottom:14px}.nav{grid-template-columns:repeat(3,1fr)}.nav button{text-align:center;padding:10px 5px;font-size:12px}.sidefoot{display:none}main{padding:18px}.layout{grid-template-columns:1fr}.stats{gap:9px}.stat{padding:14px}.stat strong{font-size:20px}.top h1{font-size:24px}}
+@media(max-width:480px){.stats{grid-template-columns:1fr}.grid2,.metrics{grid-template-columns:1fr 1fr}.top{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="logo">VendeMais <span>IA</span></div>
+  <div class="tagline">Ferramentas práticas para vender melhor</div>
+  <div class="nav">
+    <button class="active" data-page="inicio">⌂ Visão geral</button>
+    <button data-page="anuncios">✦ Criar anúncio</button>
+    <button data-page="precos">▤ Calcular preço</button>
+    <button data-page="salvos">♡ Produtos salvos</button>
+  </div>
+  <div class="sidefoot">VERSÃO INICIAL 1.0<br>Seus dados ficam salvos neste navegador.</div>
+</aside>
+<main>
+  <div class="top">
+    <div><div class="eyebrow">Seu assistente de vendas</div><h1 id="pageTitle">Vamos vender melhor?</h1><p class="sub" id="pageSub">Crie anúncios mais completos e calcule seus preços em poucos passos.</p></div>
+    <div class="pill">● Pronto para usar</div>
+  </div>
+  <section id="inicio">
+    <div class="stats">
+      <div class="stat"><small>Produtos salvos</small><strong id="statProducts">0</strong><span>Seus rascunhos neste navegador</span></div>
+      <div class="stat"><small>Ferramentas</small><strong>2</strong><span>Anúncios e precificação</span></div>
+      <div class="stat"><small>Custo de uso</small><strong>R$ 0</strong><span>Sem API paga nesta versão</span></div>
+    </div>
+    <div class="layout">
+      <div class="panel">
+        <h2>✦ Gerador de anúncio</h2><p class="help">Informe o produto para criar um título, uma descrição e palavras-chave sugeridas.</p>
+        <label>Nome do produto</label><input id="pName" placeholder="Ex.: Sérum facial vitamina C">
+        <div class="grid2"><div><label>Categoria</label><select id="pCategory"><option>Beleza</option><option>Casa</option><option>Moda</option><option>Eletrônicos</option><option>Pet</option><option>Utilidades</option><option>Outro</option></select></div><div><label>Público / uso</label><input id="pAudience" placeholder="Ex.: uso diário"></div></div>
+        <label>Características principais</label><textarea id="pFeatures" placeholder="Ex.: 30 ml, embalagem prática, fácil de usar"></textarea>
+        <label>Tom do anúncio</label><select id="pTone"><option value="professional">Profissional</option><option value="persuasive">Persuasivo</option><option value="simple">Simples e direto</option></select>
+        <div class="actions"><button onclick="generateAd()">Gerar anúncio</button><button class="secondary" onclick="saveCurrent()">Salvar produto</button></div>
+        <label>Título sugerido</label><div class="result" id="adTitle">Seu título aparecerá aqui.</div><button class="secondary" onclick="copyEl('adTitle')">Copiar título</button>
+        <label>Descrição sugerida</label><div class="result" id="adDescription">Sua descrição aparecerá aqui.</div><button class="secondary" onclick="copyEl('adDescription')">Copiar descrição</button>
+        <label>Palavras-chave</label><div class="result" id="adKeywords">As palavras-chave aparecerão aqui.</div><button class="secondary" onclick="copyEl('adKeywords')">Copiar palavras-chave</button>
+        <p class="notice">Esta versão usa modelos e regras locais, não um modelo de IA conectado. Revise as informações e não inclua promessas, certificações ou características que não sejam verdadeiras.</p>
+      </div>
+      <div>
+        <div class="panel">
+          <h2>▤ Calculadora de preço</h2><p class="help">Estime o preço considerando custos, taxas e lucro desejado.</p>
+          <label>Nome do produto (opcional)</label><input id="calcName" placeholder="Ex.: Creme hidratante">
+          <div class="grid2"><div><label>Custo do produto (R$)</label><input id="cost" type="number" min="0" step=".01" value="20"></div><div><label>Embalagem / outros custos (R$)</label><input id="extra" type="number" min="0" step=".01" value="2"></div></div>
+          <div class="grid2"><div><label>Taxas sobre a venda (%)</label><input id="fees" type="number" min="0" max="99" step=".1" value="15"></div><div><label>Margem de lucro desejada (%)</label><input id="margin" type="number" min="0" max="500" step=".1" value="30"></div></div>
+          <div class="actions"><button onclick="calculate()">Calcular preço</button><button class="secondary" onclick="resetCalc()">Limpar</button></div>
+          <div id="priceResult" class="result">Preencha os valores e clique em “Calcular preço”.</div>
+          <div class="metrics"><div class="metric"><small>Preço sugerido</small><b id="mPrice">—</b></div><div class="metric"><small>Lucro estimado</small><b id="mProfit">—</b></div><div class="metric"><small>Margem real</small><b id="mMargin">—</b></div></div>
+          <p class="notice">Cálculo estimado: preço = custos totais ÷ (1 − taxa percentual − margem desejada). Confira regras de taxas, impostos, frete e comissões da sua plataforma.</p>
+        </div>
+        <div class="panel"><h2>Como usar</h2><p class="help">1. Preencha os dados do produto.<br>2. Gere o anúncio e revise o texto.<br>3. Calcule um preço considerando seus custos.<br>4. Salve seus produtos neste navegador.</p><button class="green" onclick="showPage('anuncios')">Começar agora</button></div>
+      </div>
+    </div>
+  </section>
+  <section id="anuncios" class="hidden">
+    <div class="panel"><h2>✦ Criar anúncio</h2><p class="help">Preencha os campos e gere seu material de divulgação.</p>
+    <label>Nome do produto</label><input id="pName2" placeholder="Nome do produto">
+    <div class="grid2"><div><label>Categoria</label><select id="pCategory2"><option>Beleza</option><option>Casa</option><option>Moda</option><option>Eletrônicos</option><option>Pet</option><option>Utilidades</option><option>Outro</option></select></div><div><label>Público / uso</label><input id="pAudience2" placeholder="Uso diário, presente..."></div></div>
+    <label>Características principais</label><textarea id="pFeatures2" placeholder="Material, tamanho, conteúdo da embalagem..."></textarea>
+    <div class="actions"><button onclick="syncAdFields();generateAd()">Gerar anúncio</button><button class="secondary" onclick="syncAdFields();saveCurrent()">Salvar produto</button></div>
+    <label>Título</label><div class="result" id="adTitle2">Seu título aparecerá aqui.</div><button class="secondary" onclick="copyEl('adTitle2')">Copiar título</button>
+    <label>Descrição</label><div class="result" id="adDescription2">Sua descrição aparecerá aqui.</div><button class="secondary" onclick="copyEl('adDescription2')">Copiar descrição</button>
+    <label>Palavras-chave</label><div class="result" id="adKeywords2">Suas palavras-chave aparecerão aqui.</div><button class="secondary" onclick="copyEl('adKeywords2')">Copiar palavras-chave</button></div>
+  </section>
+  <section id="precos" class="hidden">
+    <div class="panel"><h2>▤ Calcular preço</h2><p class="help">Use a calculadora para simular custos, taxas e margem.</p><p>Você pode usar a calculadora na página inicial. Ela não envia seus dados para nenhum servidor.</p><button onclick="showPage('inicio')">Abrir calculadora</button></div>
+  </section>
+  <section id="salvos" class="hidden">
+    <div class="panel"><h2>♡ Produtos salvos</h2><p class="help">Os produtos ficam salvos apenas neste navegador e neste dispositivo.</p><div id="productList" class="products"><div class="empty">Nenhum produto salvo ainda.</div></div><div class="actions"><button class="secondary" onclick="exportProducts()">Exportar backup JSON</button><button class="secondary" onclick="document.getElementById('importFile').click()">Importar backup</button><input id="importFile" type="file" accept=".json,application/json" class="hidden" onchange="importProducts(event)"></div><p class="notice">Faça backups regularmente. Limpar os dados do navegador pode apagar os produtos salvos.</p></div>
+  </section>
+  <div class="footer">VendeMais IA • Ferramenta independente • Confira todos os dados antes de publicar.</div>
+</main>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const money=n=>Number(n).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+function showPage(page){
+ document.querySelectorAll('main section').forEach(s=>s.classList.add('hidden'));
+ $(page).classList.remove('hidden');
+ document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
+ const titles={inicio:['Vamos vender melhor?','Crie anúncios mais completos e calcule seus preços em poucos passos.'],anuncios:['Criar anúncio','Transforme informações do produto em um rascunho pronto para revisar.'],precos:['Calcular preço','Simule custos, taxas e margem desejada.'],salvos:['Seus produtos salvos','Consulte, reutilize e faça backup dos seus rascunhos.']};
+ $('pageTitle').textContent=titles[page][0];$('pageSub').textContent=titles[page][1];
+ if(page==='salvos')renderProducts();
+}
+document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
+function fields(){return {name:$('pName').value.trim(),category:$('pCategory').value,audience:$('pAudience').value.trim(),features:$('pFeatures').value.trim(),tone:$('pTone').value}}
+function syncAdFields(){ $('pName').value=$('pName2').value;$('pCategory').value=$('pCategory2').value;$('pAudience').value=$('pAudience2').value;$('pFeatures').value=$('pFeatures2').value; }
+function fillSecond(){ $('pName2').value=$('pName').value;$('pCategory2').value=$('pCategory').value;$('pAudience2').value=$('pAudience').value;$('pFeatures2').value=$('pFeatures').value; }
+function createCopy(d){
+ if(!d.name){alert('Digite o nome do produto primeiro.');return null}
+ const name=d.name.replace(/\s+/g,' ').trim();
+ const feature=d.features?d.features.replace(/\s+/g,' ').trim():`produto da categoria ${d.category.toLowerCase()}`;
+ let title=name;
+ if(d.category && !name.toLowerCase().includes(d.category.toLowerCase())) title += ' '+d.category;
+ if(title.length>100) title=title.slice(0,97).trim()+'...';
+ let intro=d.tone==='persuasive'?'Conheça ':d.tone==='simple'?'Confira ':'Apresentamos ';
+ let description=intro+name+'. '+(d.audience?`Ideal para ${d.audience}. `:'')+`Características informadas: ${feature}. `+'Confira as especificações, medidas e conteúdo da embalagem antes da compra. Escolha com atenção e aproveite a praticidade deste produto.';
+ let keywords=[name,d.category,d.audience, ...feature.split(/[,.;]/)].filter(Boolean).map(x=>x.trim()).filter(x=>x.length>1);
+ keywords=[...new Set(keywords)].slice(0,12).join(', ');
+ return {title,description,keywords};
+}
+function generateAd(){
+ let d=fields(),c=createCopy(d);if(!c)return;
+ ['adTitle','adDescription','adKeywords','adTitle2','adDescription2','adKeywords2'].forEach((id,i)=>{let key=['title','description','keywords'][i%3];$(id).textContent=c[key]});
+ fillSecond();
+}
+function calculate(){
+ let c=Math.max(0,parseFloat($('cost').value)||0),e=Math.max(0,parseFloat($('extra').value)||0),f=Math.max(0,parseFloat($('fees').value)||0)/100,m=Math.max(0,parseFloat($('margin').value)||0)/100;
+ if(f>=1 || f+m>=1){$('priceResult').textContent='A soma das taxas e da margem precisa ser menor que 100% para este cálculo.';return}
+ let total=c+e,price=total/(1-f-m),fee=price*f,profit=price-total-fee,real=price?profit/price*100:0;
+ $('priceResult').textContent=`${$('calcName').value.trim()||'Produto'}\nPreço sugerido: ${money(price)}\nCustos totais: ${money(total)}\nTaxas estimadas: ${money(fee)}\nLucro estimado: ${money(profit)}`;
+ $('mPrice').textContent=money(price);$('mProfit').textContent=money(profit);$('mMargin').textContent=real.toLocaleString('pt-BR',{maximumFractionDigits:1})+'%';
+}
+function resetCalc(){['calcName'].forEach(id=>$(id).value='');$('cost').value=0;$('extra').value=0;$('fees').value=0;$('margin').value=30;calculate()}
+function copyEl(id){let text=$(id).textContent;if(!text||text.includes('aparecerá aqui')){alert('Gere o conteúdo primeiro.');return}navigator.clipboard.writeText(text).then(()=>alert('Copiado!')).catch(()=>{let t=document.createElement('textarea');t.value=text;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove();alert('Copiado!')})}
+function getProducts(){try{return JSON.parse(localStorage.getItem('vendemais_products')||'[]')}catch{return []}}
+function saveCurrent(){
+ let d=fields(),c=createCopy(d);if(!c)return;
+ let list=getProducts();list.unshift({id:Date.now(),...d,...c,created:new Date().toLocaleDateString('pt-BR')});
+ localStorage.setItem('vendemais_products',JSON.stringify(list.slice(0,200)));updateStats();alert('Produto salvo neste navegador!');renderProducts();
+}
+function updateStats(){$('statProducts').textContent=getProducts().length}
+function renderProducts(){
+ let list=getProducts(),root=$('productList');root.innerHTML='';
+ if(!list.length){root.innerHTML='<div class="empty">Nenhum produto salvo ainda.</div>';return}
+ list.forEach(p=>{let div=document.createElement('div');div.className='product';let info=document.createElement('div');let b=document.createElement('b');b.textContent=p.name;let sm=document.createElement('small');sm.textContent=`${p.category} • salvo em ${p.created}`;info.append(b,sm);let actions=document.createElement('div');let load=document.createElement('button');load.className='secondary';load.textContent='Abrir';load.onclick=()=>{ $('pName').value=p.name;$('pCategory').value=p.category;$('pAudience').value=p.audience;$('pFeatures').value=p.features;$('pTone').value=p.tone||'professional';showPage('inicio');generateAd()};let del=document.createElement('button');del.className='secondary';del.textContent='Excluir';del.onclick=()=>{localStorage.setItem('vendemais_products',JSON.stringify(getProducts().filter(x=>x.id!==p.id)));renderProducts();updateStats()};actions.append(load,del);div.append(info,actions);root.append(div)})
+}
+function exportProducts(){let blob=new Blob([JSON.stringify(getProducts(),null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='vendemais-backup.json';a.click();URL.revokeObjectURL(a.href)}
+function importProducts(ev){let f=ev.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let data=JSON.parse(r.result);if(!Array.isArray(data))throw 0;localStorage.setItem('vendemais_products',JSON.stringify(data));renderProducts();updateStats();alert('Backup importado!')}catch{alert('Arquivo de backup inválido.')}};r.readAsText(f);ev.target.value=''}
+calculate();updateStats();
+</script>
+</body>
+</html>
